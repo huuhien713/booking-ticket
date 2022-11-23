@@ -10,7 +10,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const SignIn = () => {
     const dispatch = useDispatch();
-    const { user, isLoading, error } = useSelector(state => state.authSlice);
+    const { user, error } = useSelector(state => state.authSlice);
 
     const { register, handleSubmit, formState } = useForm({
         defaultValues: {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../../components/Button';
@@ -9,7 +9,6 @@ import { loginClose, signIn } from '../../../services/slice/authSlice';
 
 const SignInAtHome = () => {
     const dispatch = useDispatch();
-    const { user, isLoading, error } = useSelector(state => state.authSlice);
 
     const { register, handleSubmit, formState } = useForm({
         defaultValues: {
@@ -72,7 +71,6 @@ const SignInAtHome = () => {
                 <Button>Đăng nhập</Button>
                 <div>Chưa có tài khoản ? <Link to='/signup' onClick={() => {dispatch(loginClose())}}>Đăng ký ngay !</Link></div>
             </FormSignIn>
-            { error && (<div>{error}</div>) }
         </>
     )
 }
