@@ -1,30 +1,37 @@
 import React, { useContext, useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { ThemeContext } from '../../../templates/ThemeContext';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import styled from 'styled-components'
 import { fetchHeThongRap } from '../../../services/slice/movieSlice';
-import { ThemeContext } from '../../../templates/ThemeContext';
+import { BsFillCaretDownFill } from 'react-icons/bs';
+import { useViewport } from '../../../hooks';
 
 const TheaterItem = () => {
     const themeContext = useContext(ThemeContext);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { cumRap } = useParams();
+    const [screenWidth] = useViewport();
 
+    const [show, setShow] = useState(false);
+    const [name, setName] = useState(false);
+    
     useEffect(() => {
         dispatch(fetchHeThongRap(cumRap));
-    }, [])
+    }, [cumRap])
 
     const { heThongRap } = useSelector(state => state.movieSlice);
 
-    const [dsPhim, setDsPhim] = useState();
+    const [dsPhim, setDsPhim] = useState('');
 
     const handleSelectRap = (rap) => {
-        console.log(rap);
-        setDsPhim(rap)
+        setName(rap.tenCumRap)
+        setShow(false);
+        setDsPhim(rap);
     }
 
-    console.log(heThongRap)
+
     return (
         <Wrapper className={themeContext.theme}>
             <Title>
@@ -32,15 +39,30 @@ const TheaterItem = () => {
             </Title>
 
             <Content>
-                <Rap>
-                    {heThongRap[0]?.lstCumRap?.map((rap, index) => (
-                        <div key={index} onClick={() => { handleSelectRap(rap) }}>
-                            <div>
-                                <img src={rap.hinhAnh} alt={rap.maCumRap} />
+                <Rap>         
+                    {screenWidth <= 768 ?
+                        (<>
+                            <div className='selectRap' onClick={() => { setShow(true) }} style={{ position: 'relative' }}>
+                                <div>
+                                    <img src={heThongRap[0]?.lstCumRap[0]?.hinhAnh} alt={heThongRap[0]?.lstCumRap[0]?.maCumRap} />
+                                </div>
+                                <h4>{name || heThongRap[0]?.lstCumRap[0]?.tenCumRap}</h4>
+                                <BsFillCaretDownFill style={{ position: 'absolute', right: 30 }} />
                             </div>
-                            <h4>{rap.tenCumRap}</h4>
-                        </div>
-                    ))}
+                        </>) : (<></>) 
+                    }
+                    {screenWidth > 768 || show ? 
+                        (<>
+                            {heThongRap[0]?.lstCumRap?.map((rap, index) => (
+                                <div className='rapItem' key={index} onClick={() => { handleSelectRap(rap) }}>
+                                    <div>
+                                        <img src={rap.hinhAnh} alt={rap.maCumRap} />
+                                    </div>
+                                    <h4>{rap.tenCumRap}</h4>
+                                </div>
+                            ))}
+                        </>) : (<></>)
+                    }
                 </Rap>
 
                 <ChiTietPhim className='chiTietPhim'>
@@ -100,6 +122,9 @@ const Content = styled.div`
         border-radius: 8px;
         border: 1px solid var(--BorderColor);
     }
+    @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 `
 const Rap = styled.div`
     width: 100%;
@@ -110,7 +135,7 @@ const Rap = styled.div`
         border: none;
     }
     
-    & > div {
+    .rapItem {
         display: flex;
         align-items: center;
         border-bottom: 1px solid var(--BorderColor);
@@ -134,6 +159,28 @@ const Rap = styled.div`
             h4, span {
                 color: #fff;
             }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+        .selectRap {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--BorderColor);
+            cursor: pointer;
+            & > div {
+                width: 80px;
+                padding: 10px;
+
+                img {
+                    width: 100%;
+                    display: block;
+                    border-radius: 8px;
+                    box-shadow: var(--BoxShadow);
+                    background-color: #fff;
+                }
+            }  
         }
     }
 `

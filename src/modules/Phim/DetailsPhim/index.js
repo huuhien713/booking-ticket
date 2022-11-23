@@ -131,13 +131,12 @@ const Details = styled.div`
         & > div:first-of-type {
             p {
                 margin: 8px 0 16px 0;
-                font-size: 0.5rem;
+                font-size: 0.75rem;
             }
         }
         .subInfo {
             p:last-child {
                 margin-top: 8px;
-                font-size: 0.5rem;
                 svg {
                     color: #FFB400;
                     font-size: 12px;

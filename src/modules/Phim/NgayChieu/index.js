@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import { changeDate, changeDay } from '../../../../utils';
+import { changeDate, changeDay } from '../../../utils'
 
 const NgayChieu = () => {
 
@@ -35,7 +35,7 @@ const NgayChieu = () => {
                 </li>
                 <li>
                     <h4>{toDay.getDate() + 6}</h4>
-                    <p>{changeDay(changeDate(toDay.getDay() + 5))}</p>
+                    <p>{changeDay(changeDate(toDay.getDay() + 6))}</p>
                 </li>
             </ul>
         </Wrapper>
@@ -91,10 +91,9 @@ const Wrapper = styled.div`
             }
         }
     }
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 400px) {
         ul {
-            grid-template-columns: repeat(7, 1fr);
+            grid-template-columns: repeat(5, 1fr);
         }
-        
     }
 `

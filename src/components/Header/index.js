@@ -35,7 +35,7 @@ const Header = () => {
     // useEffect kiểm tra trạng thái click vào menu
     useEffect(() => {
         if (isShow) {
-            nav.current.style.height = '320px';
+            nav.current.style.height = '280px';
         } else {
             nav.current.style.height = '0';
         }

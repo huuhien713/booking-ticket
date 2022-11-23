@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from '../Header'
-import Footer from '../Footer'
 import { Outlet } from 'react-router-dom';
+import Footer from '../Footer'
 import ScrollRight from '../ScrollRight'
 import ScrollLeft from '../ScrollLeft';
 import ModalVideo from '../Modal';
+import BackToTop from '../../modules/BackToTop';
 
 const RootLayout = () => {
     return (
@@ -16,6 +17,7 @@ const RootLayout = () => {
             <ScrollRight />
             <ScrollLeft />
             <ModalVideo />
+            <BackToTop />
         </Container>
     )
 }
@@ -23,9 +25,10 @@ const RootLayout = () => {
 export default RootLayout;
 
 const Container = styled.div`
-  max-width: 1920px;
-  width: 100%;
-  margin: auto;
-  transition: all 1s;
-  overflow: hidden;
+    scroll-behavior: smooth;
+    max-width: 1920px;
+    width: 100%;
+    margin: auto;
+    transition: all 1s;
+    overflow: hidden;
 `

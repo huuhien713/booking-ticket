@@ -9,6 +9,15 @@ export const movieApi = {
         });
         return data.content;
     },
+    getFilmByName: async (tenPhim) => {
+        const { data } = await fetcher.get('/QuanLyPhim/LayDanhSachPhim', {
+            params: {
+                maNhom: 'GP13',
+                tenPhim: tenPhim
+            }
+        });
+        return data.content;
+    },
     getFilmDetails: async (movieId) => {
         const { data } = await fetcher.get('/QuanLyPhim/LayThongTinPhim', {
             params : {

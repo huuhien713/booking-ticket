@@ -30,4 +30,7 @@ const Button = styled.div`
       background-color: #d0ddef;
     }
   }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `

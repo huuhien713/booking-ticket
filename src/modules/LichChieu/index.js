@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components'
+import LoadingContent from '../../components/Loading/LoadingContent';
 import { fetchAllMovie, fetchHeThongRap, fetchHeThongRapChieu } from '../../services/slice/movieSlice';
 import { ThemeContext } from '../../templates/ThemeContext';
 import Showing from '../MainPage/Showing';
@@ -18,7 +19,7 @@ const LichChieu = () => {
         dispatch(fetchHeThongRapChieu());
     }, [])
 
-    const { heThongRap, movieList } = useSelector(state => state.movieSlice);
+    const { heThongRap, movieList, isLoading } = useSelector(state => state.movieSlice);
 
     const [maRap, setMaRap] = useState();
 
@@ -27,7 +28,6 @@ const LichChieu = () => {
     }
 
     const comming = movieList.filter(item => item.sapChieu);
-
 
     return (
         <div className={themeContext.theme}>
@@ -39,7 +39,9 @@ const LichChieu = () => {
                     <HeThongRap />
                     {heThongRap.map((hethongrap, index) => (
                         <div key={index} className='cumRap'>
-                            <CumRap>
+                            {isLoading ? 
+                            (<div style={{ height: '100%', transform: 'translateY(40%)' }}><LoadingContent /></div>) :
+                            (<CumRap>
                                 {hethongrap?.lstCumRap.map((cumRap, index) => (
                                     <div key={index} onClick={() => { selectRap(cumRap) }}>
                                         <img src={hethongrap?.logo} alt="" />
@@ -48,7 +50,7 @@ const LichChieu = () => {
                                         </div>
                                     </div>
                                 ))}
-                            </CumRap>
+                            </CumRap>)}
                             <Rap hethongrap={hethongrap} maRap={maRap} />
                         </div>
                     ))}

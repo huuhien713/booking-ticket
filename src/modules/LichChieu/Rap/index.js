@@ -1,45 +1,56 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-// import NgayChieu from './NgayChieu';
+import LoadingContent from '../../../components/Loading/LoadingContent';
 
 const Rap = ({ hethongrap, maRap }) => {
+    const { isLoading } = useSelector(state => state.movieSlice);
     const navigate = useNavigate();
-    // console.log(hethongrap)
+
     return (
         <Wrapper>
             <div className='rapHienTai'>
-                <img src={hethongrap?.logo} alt="" />
-                <div>
-                    <h4>{maRap?.tenCumRap || hethongrap?.lstCumRap[0].tenCumRap}</h4>
-                    <p>{maRap?.diaChi || hethongrap?.lstCumRap[0].diaChi}</p>
-                </div>
+                {isLoading ?
+                    <LoadingContent /> :
+                    (<>
+                        <img src={hethongrap?.logo} alt="" />
+                        <div>
+                            <h4>{maRap?.tenCumRap || hethongrap?.lstCumRap[0].tenCumRap}</h4>
+                            <p>{maRap?.diaChi || hethongrap?.lstCumRap[0].diaChi}</p>
+                        </div>
+                    </>)
+                }
             </div>
-            {/* <NgayChieu /> */}
-            <ListPhim>
-                {(maRap || hethongrap?.lstCumRap[0])?.danhSachPhim.map((phim, index) => {
-                    if (phim.dangChieu) {
-                        return (
-                            <div key={index}>
-                                <Poster>
-                                    <Link to={`/phim/${phim.maPhim}`}>
-                                        <img src={phim.hinhAnh} alt="" />
-                                    </Link>
-                                </Poster>
-                                <Details>
-                                    <h4 onClick={() => { navigate(`/phim/${phim.maPhim}`) }}>{phim.tenPhim}</h4>
-                                    <p>2D phụ đề</p>
-                                    <div>
-                                        {phim.lstLichChieuTheoPhim.map((item, index) => (
-                                            <Link to={`/muave/${item.maLichChieu}`} key={index}>{item.ngayChieuGioChieu.slice(11, 16)}</Link>
-                                        ))}
+            {isLoading ?
+                (<div style={{ height: '100%', transform: 'translateY(40%)' }}><LoadingContent /></div>) :
+                (
+                    <ListPhim>
+                        {(maRap || hethongrap?.lstCumRap[0])?.danhSachPhim.map((phim, index) => {
+                            if (phim.dangChieu) {
+                                return (
+                                    <div key={index}>
+                                        <Poster>
+                                            <Link to={`/phim/${phim.maPhim}`}>
+                                                <img src={phim.hinhAnh} alt="" />
+                                            </Link>
+                                        </Poster>
+                                        <Details>
+                                            <h4 onClick={() => { navigate(`/phim/${phim.maPhim}`) }}>{phim.tenPhim}</h4>
+                                            <p>2D phụ đề</p>
+                                            <div>
+                                                {phim.lstLichChieuTheoPhim.map((item, index) => (
+                                                    <Link to={`/muave/${item.maLichChieu}`} key={index}>{item.ngayChieuGioChieu.slice(11, 16)}</Link>
+                                                ))}
+                                            </div>
+                                        </Details>
                                     </div>
-                                </Details>
-                            </div>
-                        )
-                    }
-                })}
-            </ListPhim>
+                                )
+                            }
+                        })}
+                    </ListPhim>
+                )
+            }
         </Wrapper>
     )
 }

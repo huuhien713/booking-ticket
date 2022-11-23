@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components';
 import Button from '../../components/Button';
 import LoadingContent from '../../components/Loading/LoadingContent';
-import { lichSuDatVeTaiKhoan } from '../../services/slice/bookTicketSlice';
+import { capNhatThongTinNguoiDung, lichSuDatVeTaiKhoan } from '../../services/slice/bookTicketSlice';
 import { ThemeContext } from '../../templates/ThemeContext';
 
 const TaiKhoan = () => {
@@ -12,16 +12,9 @@ const TaiKhoan = () => {
     const dispatch = useDispatch();
 
     const { taiKhoan, isLoading } = useSelector(state => state.bookTicketSlice);
-    
+
     const { register, handleSubmit, formState, reset } = useForm({
         defaultValues: taiKhoan,
-        // {
-        //     "taiKhoan": `${taiKhoan?.taiKhoan}`,
-        //     "matKhau": `${taiKhoan?.matKhau}`,
-        //     "email": `${taiKhoan?.email}`,
-        //     "soDt": `${taiKhoan?.soDT}`,
-        //     "hoTen": `${taiKhoan?.hoTen}`,
-        // },
         mode: 'all',
     });
 
@@ -30,19 +23,17 @@ const TaiKhoan = () => {
     }, [])
 
     useEffect(() => {
-        if(taiKhoan) reset(taiKhoan);
+        if (taiKhoan) reset(taiKhoan);
     }, [taiKhoan])
 
     const [isShowBookTicketHistory, setIsShowBookTicketHistory] = useState(false);
 
-   
-    
     const { errors } = formState;
 
     const onSubmit = (values) => {
         console.log(values)
+        dispatch(capNhatThongTinNguoiDung(values));
     }
-
 
     if (isLoading) {
         return (<div style={{ height: '100vh', transform: 'translateY(50%)' }}>
@@ -54,6 +45,11 @@ const TaiKhoan = () => {
         <Wrapper className={themeContext.theme}>
             <div>
                 <img src="https://xsgames.co/randomusers/avatar.php?g=male" alt="" />
+                <div>
+                    <h3>{taiKhoan?.hoTen}</h3>
+                    <p>{taiKhoan?.email}</p>
+                    <p>{taiKhoan?.soDT}</p>
+                </div>
             </div>
             <div>
                 <Tab>
@@ -86,9 +82,9 @@ const TaiKhoan = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {taiKhoan.thongTinDatVe.map((ve, index) => (
+                                    {taiKhoan?.thongTinDatVe.map((ve, index) => (
                                         <tr key={index}>
-                                            <td>{index+1}</td>
+                                            <td>{index + 1}</td>
                                             <td>{ve.tenPhim}</td>
                                             {/* <td>{ve.thoiLuongPhim}</td> */}
                                             <td>{ve.danhSachGhe.reduce((results, item, index) => (results += item.tenGhe + ', '), '')}</td>
@@ -209,12 +205,23 @@ const Wrapper = styled.div`
     grid-template-columns: 1fr 4fr;
     gap: 32px;
     padding: 36px;
+    overflow: hidden;
 
     & > div:first-child {
         img {
             width: 100%;
             height: auto;
             border-radius: 100%;
+        }
+        div {
+            margin-top: 20px;
+            padding: 24px 12px;
+            border: 1px solid var(--BorderColor);
+            border-radius: 8px;
+            background-color: var(--BgContent);
+            h3, p {
+                margin-bottom: 16px;
+            }
         }
     }
     @media screen and (max-width: 912px) {
@@ -223,17 +230,26 @@ const Wrapper = styled.div`
         & > div:first-child {
             width: 50%;
             margin: auto;
-            img {
-                width: 100%;
-                height: auto;
-                border-radius: 100%;
-            }
         }
     }
+    @media screen and (max-width: 576px) {
+        padding: 24px;
+        & > div:first-child {
+            width: 90%;
+        }
+    }
+    @media screen and (max-width: 400px) {
+        padding: 12px;
+        gap: 12px;
+        & > div:first-child {
+            margin: auto;
+        }
+    }
+
 `
 const Tab = styled.div`
     & > div:first-child {
-        margin-bottom: 24px;
+        margin: 0 0 36px 24px;
         strong {
             display: inline-block;
             font-size: 20px;
@@ -253,11 +269,26 @@ const Tab = styled.div`
                 background-color: var(--HoverTextColor);
             }
         }
-
+    }
+    @media screen and (max-width: 912px){
+        & > div:first-child {
+            margin: 0 auto 24px;
+            text-align: center;
+        }
+    }
+    @media screen and (max-width: 576px) {
+        & > div:first-child {
+            margin: auto;
+            strong {
+                padding: 8px;
+                font-size: 16px;
+            }
+        }
     }
 `
 const HistoryBooking = styled.div`
     table {
+        width: 100%;
         border-collapse: collapse;
         td {
             max-width: 200px;
@@ -265,14 +296,20 @@ const HistoryBooking = styled.div`
             border: 1px solid var(--BorderColor);
         }
     }
+    @media screen and (max-width: 500px) {
+        margin: auto;
+        width: 350px;
+        overflow: scroll;
+    }
 `
 
 const FormSignUp = styled.form`
     width: 50%;
+    margin-left: 36px;
     & > div:first-child {
         display: grid;
         grid-template-columns: (1fr);
-        gap: 10px;
+        gap: 16px;
         p {
             margin-top: 8px;
         }
@@ -288,6 +325,10 @@ const FormSignUp = styled.form`
             color: #95aac9;
             margin: 12px 0;
         }
+    }
+    @media screen and (max-width: 912px){
+        width: 100%;
+        margin: 0;
     }
 
     @media screen and (max-width: 500px) {

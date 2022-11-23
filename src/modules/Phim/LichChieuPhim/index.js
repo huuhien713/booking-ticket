@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ThemeContext } from '../../../templates/ThemeContext';
-import NgayChieu from '../../LichChieu/Rap/NgayChieu';
+import NgayChieu from '../NgayChieu'
 
 const LichChieuPhim = () => {
     const themeContext = useContext(ThemeContext);
@@ -76,22 +76,31 @@ const Wrapper = styled.div`
     padding: 36px;
 
     & > div:last-child {
-        width: 80%;
+        width: 90%;
         margin: auto;
         border-radius: 8px;
         border: 1px solid var(--BorderColor);
         box-shadow: var(--BoxShadow);
         overflow: hidden;
     }
+    @media screen and (max-width: 576px) {
+        padding: 24px 8px;
+        & > div:last-child {
+            width: 95%;
+        }
+    }
 `
 
 const Title = styled.div`
-    width: 80%;
+    width: 90%;
     margin: auto;
     h2 {
         color: var(--HoverTextColor);
         margin-bottom: 24px;
         font-size: 24px;
+    }
+    @media screen and (max-width: 576px) {
+        width: 95%;
     }
 `
 
@@ -133,15 +142,15 @@ const HeThongRapChieu = styled.div`
     }
     @media screen and (max-width: 768px) {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(6, 1fr);
     }
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 576px) {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(5, 1fr);
     }
     @media screen and (max-width: 400px) {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 `
 
@@ -191,6 +200,14 @@ const RapChieu = styled.div`
                 color: #fff;
                 background-color: var(--HoverTextColor);
             }
+        }
+    }
+    @media screen and (max-width: 576px) {
+        
+    }
+    @media screen and (max-width: 400px) {
+        & > div:last-child {
+            grid-template-columns: repeat(3, 1fr);
         }
     }
 `

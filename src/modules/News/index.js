@@ -107,7 +107,7 @@ const WrapperContent = styled.div`
   @media screen and (max-width: 768px) {
     grid-template-columns: repeat(1, 1fr);
     .title, .content {
-      padding 16px
+      padding: 16px;
     }
     .title {
       font-size: 1rem;

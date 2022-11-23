@@ -67,17 +67,17 @@ const Wrapper = styled.div`
     }
     @media screen and (max-width: 768px) {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         div {
             margin: auto;
         }
     }
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 576px) {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+    @media screen and (max-width: 300px) {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-    }
-    @media screen and (max-width: 400px) {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
     }
 `

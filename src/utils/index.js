@@ -41,3 +41,15 @@ export const changeDate = (num) => {
       default: return num
   }
 }
+
+export const changeName = (name) => {
+  switch(name) {
+      case('bhd') : return 'BHDStar';
+      case('cgv') : return 'CGV';
+      case('cns') : return 'CineStar';
+      case('glx') : return 'Galaxy';
+      case('lotte') : return 'LotteCinima';
+      case('megags') : return 'MegaGS';
+      default: return ''
+  }
+}

@@ -15,7 +15,6 @@ const BuyTicket = () => {
     const location = useLocation();
     const dispatch = useDispatch();
     const { danhSachPhongVe } = useSelector(state => state.movieSlice);
-    // const { listVeDangDat } = useSelector(state => state.bookTicketSlice);
     const { thongTinPhim, danhSachGhe } = danhSachPhongVe;
 
     useEffect(() => {
@@ -80,17 +79,7 @@ const Wrapper = styled.div`
     @media screen and (max-width: 820px) {
         grid-template-columns: 1fr;
     }
-`
-
-const Modal = styled.div`
-    .modalHeader {
-        margin-bottom: 24px;
-    }
-
-    .modalContent{
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 8px;
+    @media screen and (max-width: 400px) {
+        padding: 16px 8px;
     }
 `
-

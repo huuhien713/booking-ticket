@@ -107,8 +107,8 @@ const Wrapper = styled.div`
         .contentFilm {
             & > div {
                 grid-template-columns: 1fr;
-                grid-template-rows: 150px 250px;
-
+                grid-template-rows: 200px 300px;
+                padding: 16px 0;
             }
         }
     }

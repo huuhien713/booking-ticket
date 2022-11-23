@@ -178,11 +178,14 @@ const StateGhe = styled.div`
         padding: 0 16px 0 48px;
     }
     @media screen and (max-width: 576px) {
-        padding: 0 0 0 16px;
+        padding: 0 0 0 12px;
         .chuThich {
             grid-template-columns: repeat(2, 1fr);
             gap: 8px 0;
         }
+    }
+    @media screen and (max-width: 400px) {
+        padding: 0;
     }
 `
 const ListGhe = styled.div`
@@ -258,6 +261,11 @@ const ListGhe = styled.div`
         }
         & > div:last-child {
             gap: 4px 2px;
+        }
+    }
+    @media screen and (max-width: 400px) {
+        & > ul:first-child {
+            display: none;
         }
     }
 `

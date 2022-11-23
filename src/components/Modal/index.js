@@ -27,7 +27,7 @@ const ModalVideo = () => {
         } else {
             divWrap.current.style.visibility = 'hidden';
             divWrap.current.style.backgroundColor = 'transparent';
-            divLogin.current.style.transform = 'translateY(-600%)';
+            divLogin.current.style.transform = 'translateY(-1000px)';
             setTimeout(() => {
                 videoRef.current?.setAttribute('src', `${trailer}?autoplay=0&mute=1`);
             }, 500)
@@ -44,7 +44,7 @@ const ModalVideo = () => {
                     {
                         isOpenTrailer && (
                             <div className='videoTrailer'>
-                                <iframe ref={videoRef} title='1' width="100%" height="500px" ></iframe>
+                                <iframe ref={videoRef} title='1' width="100%" height="500px" allowFullScreen ></iframe>
                             </div>
                         )
                     }
@@ -82,8 +82,8 @@ const Wrapper = styled.div`
 
         & > div {
             width: 100%;
-            max-width: 60%;
-            height: fit-content;
+            max-width: 70%;
+            height: auto;
             transition: all 1s;
             background-color: #000;
             padding: 24px;
@@ -109,8 +109,40 @@ const Wrapper = styled.div`
             }
         }
     }
-    @media screen and (max-width: ) {
-
+    @media screen and (max-width: 768px) {
+        .wrapper {
+            & > div {
+                .videoTrailer {
+                    iframe {
+                        height: 300px;
+                    }
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 576px) {
+        .wrapper {
+            & > div {
+                max-width: 80%;
+                .videoTrailer {
+                    iframe {
+                        height: 250px;
+                    }
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 400px) {
+        .wrapper {
+            & > div {
+                max-width: 100%;
+                .videoTrailer {
+                    iframe {
+                        height: 200px;
+                    }
+                }
+            }
+        }
     }
 `
 

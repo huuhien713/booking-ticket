@@ -14,7 +14,6 @@ export const signIn = createAsyncThunk(
     async (user) => {
         try {
             const {data} = await authApi.signIn(user);
-            // console.log(data.content);
             localStorage.setItem('user', JSON.stringify(data.content));
             return data.content;
         } catch (error) {

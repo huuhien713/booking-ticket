@@ -20,6 +20,8 @@ const initialState = {
     heThongRapTheoPhim: [],
     danhSachPhongVe : [],
 
+    searchFilm: []
+
 }
 
 export const fetchAllMovie = createAsyncThunk(
@@ -27,6 +29,18 @@ export const fetchAllMovie = createAsyncThunk(
     async () => {
         try {
             const data = await movieApi.getFilm();
+            return data;
+        } catch (error) {
+            throw (error);
+        }
+    }
+);
+
+export const getMovieByName = createAsyncThunk(
+    'movie/getMovieByName',
+    async (tenPhim) => {
+        try {
+            const data = await movieApi.getFilmByName(tenPhim);
             return data;
         } catch (error) {
             throw (error);
@@ -211,6 +225,20 @@ const movieSlice = createSlice({
             state.danhSachPhongVe = action.payload;
         });
         builder.addCase(fetchDanhSachPhongVe.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.error.message;
+        });
+
+
+        // search film theo tên
+        builder.addCase(getMovieByName.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getMovieByName.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.searchFilm = action.payload;
+        });
+        builder.addCase(getMovieByName.rejected, (state, action) => {
             state.isLoading = false;
             state.error = action.error.message;
         });

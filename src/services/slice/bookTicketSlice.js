@@ -33,6 +33,19 @@ export const lichSuDatVeTaiKhoan = createAsyncThunk(
     }
 )
 
+export const capNhatThongTinNguoiDung = createAsyncThunk(
+    'capNhatThongTinNguoiDung',
+    async (newValues) => {
+        try {
+            const { data } = await BookTicket.updateUser(newValues);
+            console.log(data);
+            return data.content;
+        } catch (error) {
+            throw (error);
+        }
+    }
+)
+
 const BookTicketSlice = createSlice({
     name: 'bookTicket',
     initialState,
@@ -58,6 +71,16 @@ const BookTicketSlice = createSlice({
             return { ...state, isLoading: false, taiKhoan: action.payload };
         });
         builder.addCase(lichSuDatVeTaiKhoan.rejected, (state, action) => {
+            return { ...state, isLoading: false, error: action.error.message };
+        });
+
+        builder.addCase(capNhatThongTinNguoiDung.pending, (state) => {
+            return { ...state, isLoading: true };
+        });
+        builder.addCase(capNhatThongTinNguoiDung.fulfilled, (state, action) => {
+            return { ...state, isLoading: false, taiKhoan: action.payload };
+        });
+        builder.addCase(capNhatThongTinNguoiDung.rejected, (state, action) => {
             return { ...state, isLoading: false, error: action.error.message };
         });
 

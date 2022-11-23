@@ -1,10 +1,15 @@
 import React, { memo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { close } from '../../../services/slice/authSlice';
 import { fetchAllCumRap, fetchAllRap } from '../../../services/slice/movieSlice';
+import { changeName } from '../../../utils';
+
 
 const SearchTheater = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     
     useEffect(() => {
         dispatch(fetchAllCumRap());
@@ -33,7 +38,7 @@ const SearchTheater = () => {
                 {
                     allRap.map((rap, index) => {
                         return (
-                            <div key={index}>
+                            <div key={index} onClick={() => {navigate(`/rap/${changeName(rap.maCumRap.slice(0, rap.maCumRap.indexOf('-')))}`); dispatch(close());}}>
                                 <h4>{rap.tenCumRap}</h4>
                                 <span>{rap.diaChi}</span>
                             </div>

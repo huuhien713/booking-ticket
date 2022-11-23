@@ -63,7 +63,8 @@ const Poster = styled.div`
     }
 
     @media screen and (max-width: 576px) {
-        max-width: 50%;
+        max-width: 35%;
+        height: 100%;
     }
     
 `

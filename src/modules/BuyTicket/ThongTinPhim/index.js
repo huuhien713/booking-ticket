@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components';
+import Popup from 'reactjs-popup';
+import Button from '../../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import Popup from 'reactjs-popup';
-import styled from 'styled-components';
-import Button from '../../../components/Button';
 import { SlClose } from 'react-icons/sl'
 import { datVe, themVe } from '../../../services/slice/bookTicketSlice';
 
@@ -13,9 +13,21 @@ const ThongTinPhim = ({ thongTinPhim }) => {
     const { listVeDangDat } = useSelector(state => state.bookTicketSlice);
     const { user } = useSelector(state => state.authSlice);
 
-
     const [check, setCheck] = useState('ZaloPay');
     const [isOpen, setIsOpen] = useState(false);
+    const [countDown, setCountDown] = useState(300);
+
+    let min = Math.floor((countDown / 60) << 0);
+    let sec = Math.floor((countDown) % 60);
+
+    useEffect(() => {
+        const temp = setInterval(() => {
+            setCountDown(prev => prev - 1);
+        }, 1000)
+        return () => {
+            clearInterval(temp)
+        }
+    }, [countDown]);
 
     const dispatch = useDispatch();
 
@@ -29,15 +41,16 @@ const ThongTinPhim = ({ thongTinPhim }) => {
         dispatch(themVe([]));
         navigate('/');
     }
+
     const handleThanhToan = (e) => {
         dispatch(datVe({
             "maLichChieu": maLichChieu,
             "danhSachVe": listVe
         }));
-        
+
         setIsOpen(true);
     }
-
+    // console.log(window.location);
     return (
         <ThongTin>
             <div className='thongTinVe'>
@@ -63,7 +76,9 @@ const ThongTinPhim = ({ thongTinPhim }) => {
                 <div></div>
                 <div>
                     Thời Gian Giữ Ghế
-                    <p>00:00</p>
+                    {countDown > 0 ?
+                        (<p>{min}:{sec > 9 ? sec : `0${sec}`}</p>) :
+                        (<p>00:00</p>)}
                 </div>
             </div>
             <div className='hinhThucThanhToan'>
@@ -88,6 +103,14 @@ const ThongTinPhim = ({ thongTinPhim }) => {
             {
                 (listVeDangDat.length !== 0 && check) ? <Button onClick={() => handleThanhToan()}>THANH TOÁN</Button> : <Button onClick={() => handleCancel()}>QUAY LẠI</Button>
             }
+            <Popup modal open={countDown <= 0 ? true : false}>
+                <Modal>
+                    <div>
+                        <span style={{lineHeight: 2}}>Đã hết thời gian giữ ghế. Vui lòng thực hiện đơn hàng trong thời hạn 5 phút. </span>
+                        <a href={`${window.location.href}`} style={{textDecoration: 'none', color: 'var(--HoverTextColor)'}} >Đặt vé lại</a>
+                    </div>
+                </Modal>
+            </Popup>
             <Popup
                 modal
                 nested
@@ -99,7 +122,7 @@ const ThongTinPhim = ({ thongTinPhim }) => {
                     <Modal className="modal">
                         <>
                             <div className='close'>
-                                <button onClick={() => {handleCancel(); setIsOpen(false)} }><SlClose /></button>
+                                <button onClick={() => { handleCancel(); setIsOpen(false) }}><SlClose /></button>
                             </div>
                             <div className='modalHeader'>
                                 <h2>Thông Tin Chi Tiết Vé</h2>
@@ -156,7 +179,7 @@ const ThongTinPhim = ({ thongTinPhim }) => {
                                 </div>
                             </div>
                             <div className='modalFooter'>
-                                <Button onClick={() => {handleCancel(); setIsOpen(false)} }>Quay về trang chủ</Button>
+                                <Button onClick={() => { handleCancel(); setIsOpen(false) }}>Quay về trang chủ</Button>
                             </div>
                         </>
                     </Modal>
