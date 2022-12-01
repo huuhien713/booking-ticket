@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../../components/Button';
-import { loginClose, signIn } from '../../../services/slice/authSlice';
+import { clearError, loginClose, signIn } from '../../../services/slice/authSlice';
 import { useSearchParams } from 'react-router-dom';
-
+import Swal from 'sweetalert2'
 
 const SignIn = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { user, error } = useSelector(state => state.authSlice);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const redirectUrl = searchParams.get('redirectUrl');
+
+    const { user, messageError } = useSelector(state => state.authSlice);
 
     const { register, handleSubmit, formState } = useForm({
         defaultValues: {
@@ -21,24 +26,44 @@ const SignIn = () => {
     });
 
     const { errors } = formState;
-    console.log(errors, error);
- 
+
+    useEffect(() => {           
+        if (user) {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                text: 'Đăng nhập thành công',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            setTimeout(()=> {
+                if (redirectUrl === null) {
+                    navigate('/');
+                } else {
+                    navigate(`${redirectUrl}`);
+                }
+            }, 1000)
+        } else if (messageError) {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                text: 'Tài khoản hoặc mật khẩu không đúng',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            dispatch(clearError())
+        }
+    }, [user, messageError, redirectUrl, navigate, dispatch])
+
+
     const onSubmit = (values) => {
         dispatch(signIn(values));
     }
 
-    const [ searchParams, setSearchParams] = useSearchParams();
-
-    const redirectUrl = searchParams.get('redirectUrl');
-    
-    if (user) {
-        // console.log(redirectUrl);
-        return <Navigate to={redirectUrl ||'/'} />;
-    } 
-
     return (
         <>
             <h2>Đăng Nhập</h2>
+
             <FormSignIn onSubmit={handleSubmit(onSubmit)}>
 
                 <FormInput>
@@ -78,9 +103,9 @@ const SignIn = () => {
                     })} />
                     {errors.matKhau && (<p>{errors.matKhau.message}</p>)}
                 </FormInput>
-
                 <Button>Đăng nhập</Button>
-                <div>Chưa có tài khoản ? <Link to='/signup' onClick={() => {dispatch(loginClose())}}>Đăng ký ngay !</Link></div>
+                <div>Chưa có tài khoản ? <Link to='/signup' onClick={() => { dispatch(loginClose()) }}>Đăng ký ngay !</Link></div>
+
             </FormSignIn>
         </>
     )
