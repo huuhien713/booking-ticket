@@ -31,7 +31,7 @@ const TaiKhoan = () => {
     const { errors } = formState;
 
     const onSubmit = (values) => {
-        console.log(values)
+        // console.log(values)
         dispatch(capNhatThongTinNguoiDung(values));
     }
 
@@ -82,7 +82,7 @@ const TaiKhoan = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {taiKhoan?.thongTinDatVe.map((ve, index) => (
+                                    {taiKhoan?.thongTinDatVe?.map((ve, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td>{ve.tenPhim}</td>
