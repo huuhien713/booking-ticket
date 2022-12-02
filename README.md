@@ -1,2 +1,3 @@
-page Admin: http://huuhien713-admin.surge.sh/
-source Admin: https://github.com/huuhien713/booking_movie_admin
+- page Admin: http://huuhien713-admin.surge.sh/
+- source Admin: https://github.com/huuhien713/booking_movie_admin
+- bảng phân công công việc: https://docs.google.com/spreadsheets/d/1TjqoUjmkTFkkYnTFSvmlt5wyRyGXhJnA/edit?fbclid=IwAR2cS935uJoCn59kynBYsjcvyIBEjNt4d29TUiDswCAwtA61xtDWihoMsKc#gid=922149276
